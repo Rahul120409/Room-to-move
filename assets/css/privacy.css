@@ -1,0 +1,100 @@
+@charset "utf-8";
+/* CSS Document */
+
+a{
+    display:inline;
+}
+
+.border-top{
+	border-top: 1px solid var(--dark_pink) !important;
+}
+.text-content li{
+	font-family:'GothamBlack';
+	padding-bottom:20px;
+}
+.text-content li span{
+	padding-top:20px;
+}
+.privacy-content h1,
+.privacy-content h2{
+	color: var(--dark_gray);
+	margin:0px;
+}
+
+.privacy-content h1 span{
+	padding:20px 0;
+	display:block;
+	font-family:'GothamBook';
+}
+
+.privacy-content h1,
+.privacy-content h2{
+	font-family:'GothamBlack';
+}
+
+.privacy-content h2 span{
+	font-family:'GothamBook';
+}
+
+.privacy-content h2{
+	padding:0px  0px 20px;
+}
+
+.address{
+	display:flex;
+	justify-content: space-between;
+	padding:0px;
+}
+
+.address li{
+	font-family:'GothamBook';
+	padding:0px;
+}
+
+.address li:last-child{
+	padding-bottom:0px;
+}
+
+.back_btn{
+	float:right;
+}
+.back_btn a{
+	background:var(--dark_gray);
+	border-radius:100px;
+	height:26px;
+	width:80px;
+	line-height:26px;
+	text-align:center;
+	float:right;
+	cursor:pointer;
+	color:#fff;
+}
+
+.back_btn a:hover{
+	background:var(--dark_pink);
+}
+
+.pink_br{
+	border-top:1px solid var(--dark_pink);
+	padding-top:30px;
+}
+
+@media only screen and (max-width : 766px) {
+	.address{
+		display:block;
+	}
+	
+	.address li{
+		padding-bottom:20px;
+	}
+	
+	.pink_br{
+	border-top:0px solid var(--dark_pink);
+	padding-top:0px;
+}
+    .text-content{
+        text-align: center;
+    }
+	
+	
+}

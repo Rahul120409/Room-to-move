@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Room-To-Move | Official Website"/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="https://andreaposch.at/logo192.png" />
+<meta property="og:url" content="https://www.room-to-move.at/"/>
+<title>Room-To-Move</title>
+<meta name="description" content="Sometimes, familiar paths no longer lead us forward. Psychotherapy offers a space to pause, better understand yourself, and discover new possibilities."/>
+    <link rel="icon" href="assets/img/favicon.ico"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/fonts.css" />
+<link rel="stylesheet" href="assets/css/privacy.css" />
+</head>
+
+<body onload="init();">
+<div class="container">
+  <div class="sticky-top header header_border" >
+    <div class="row">
+ <div class="col-sm-12 col-md-6 col-12 ">
+        <div class="logo mView"><a href="index"> <img src="assets/img/logo_pink.png" alt="Andrea Posch" /> </a></div>
+        <div class="logo wView"> <a href="index">
+          <div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:350px; height:80px">
+            <canvas id="canvas" width="350" height="80" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+            <div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:350px; height:80px; position: absolute; left: 0px; top: 0px; display: block;"> </div>
+          </div>
+          </a> </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-12 ">
+        <ul class="lang">
+          <li><a href="information">
+            <div class="info_img_active"></div>
+            </a></li>
+          <li class="flag flagActive" id="DE">DE</li>
+          <li class="flag" id="EN">EN</li>
+          <li class="flag" id="ES">ES</li>
+          <!--<li class="contact pink" id="contact"><a href="contact">KONTAKT</a></li>-->
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="content fade-in">
+    <div class="row" >
+      <div class="col-12">
+        <div class="text-content">
+          <p id="p1" class="pd_b_23"></p>
+            <p id="p2" class="pd_b_23"></p>
+            <p id="p3" class="pd_b_23"></p>
+            
+           <div class="mView">
+                <p id="p4m" class="pd_b_23"></p>
+                <p id="p5m" class="pd_b_23"></p>
+                <p id="p6m" class="pd_b_23"></p>
+            </div>
+            
+            <div class="wView">
+                <p id="p4"></p>
+                <p id="p5"></p>
+                <p id="p6" class="pd_b_23"></p>
+            </div>
+            
+            
+            <p id="p7"></p>
+          <div class="btn pink mg_t_23"><a href="privacy-policy" id="p8">DATENSCHUTZERKLÄRUNG</a> </div>
+          <!--<div class="back_btn"><a href="index" id="info_p7">ZURÜCK</a></div>-->
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript" src="assets/js/jquery-3.7.1.min.js"></script> 
+<script type="text/javascript" src="assets/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/createjs.min.js"></script>  
+<script type="text/javascript" src="assets/js/logoShineRTM.js"></script> 
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("5E836E6796F3C044A524FDE926EC8C3F");
+	var lib=comp.getLibrary();
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
+	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
+	var lib=comp.getLibrary();
+	loader.loadManifest(lib.properties.manifest);
+}
+function handleFileLoad(evt, comp) {
+	var images=comp.getImages();	
+	if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }	
+}
+function handleComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	exportRoot = new lib.logoShineRTM();
+	stage = new lib.Stage(canvas);	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.framerate = lib.properties.fps;
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	AdobeAn.makeResponsive(true,'both',false,1,[canvas,anim_container,dom_overlay_container]);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+</script> 
+	
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+        if (localStorage['objectToPass'] == "DE") {
+            $('#DE').trigger('click');
+        } else if (localStorage['objectToPass'] == "EN") {
+            $('#EN').trigger('click');
+        } else if (localStorage['objectToPass'] == "ES") {
+            $('#ES').trigger('click');
+        } else {
+            $('#DE').trigger('click'); // Default DE
+        }
+    });
+
+
+	$('.lang').on('click', 'li', function() {
+		$('.lang li.flagActive').removeClass('flagActive');
+		$(this).toggleClass('flagActive');
+	});
+	
+	$('#DE').click(function() {
+		$('#contact').html('<a href="contact">CONTACT</a>');
+		$('#info').html('KONTAKT');
+        
+        $('#p1').html('<span class="title">Mag.<sup>a</sup> Andrea Posch</span> <br>Psychotherapeutin in Fachausbildung unter Lehrsupervision<br><span class="font_GN"></span>');
+        
+        $('#p2').html('<span class="title"><a href="https://wa.me/+436706548726" target="_blank" >M: +43 670 654 87 26</a><br><br><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span>');
+        
+        $('#p3').html('<span class="title"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Wien<br>Austria</a></span>');
+        
+        $('#p4').html('Portraitfotos: Kristine Veit | <a href="https://www.kristineveit.at" target="_blank" >www.kristineveit.at</a>');
+        $('#p5').html('Frisur und Make-up: Peter Vogelauer – Der Kultfriseur | <a href="https://www.peter-vogelauer.com" target="_blank"> www.peter-vogelauer.com </a>');
+        $('#p6').html('Kommunikationsdesign: Neel Buddhadev | <a href="https://www.neelbuddhadev.com" target="_blank" >www.neelbuddhadev.com</a>');
+        
+        $('#p4m').html('Portraitfotos: <br>Kristine Veit <a href="https://www.kristineveit.at" target="_blank" ><br>www.kristineveit.at</a>');
+        $('#p5m').html('Frisur und Make-up: <br>Peter Vogelauer – Der Kultfriseur  <a href="https://www.peter-vogelauer.com" target="_blank"> <br>www.peter-vogelauer.com </a>');
+        $('#p6m').html('Kommunikationsdesign: <br>Neel Buddhadev <br><a href="https://www.neelbuddhadev.com" target="_blank" >www.neelbuddhadev.com</a>');
+        
+        $('#p7').html('<a href="https://www.room-to-move.at/" target="_blank" >www.room-to-move.at</a>');
+        
+        $('#p8').html('DATENSCHUTZERKLÄRUNG');
+        		
+		localStorage.setItem( 'objectToPass', "DE" );
+	});
+				   
+	$('#EN').click(function() {
+		$('#contact').html('<a href="contact">CONTACT</a>');
+		$('#info').html('KONTAKT');
+        
+        $('#p1').html('<span class="title"> Andrea Posch</span> <br>Psychotherapist in specialized training under clinical supervision<br><span class="font_GN"></span>');
+        
+        $('#p2').html('<span class="title"><a href="https://wa.me/+436706548726" target="_blank" >M: +43 670 654 87 26</a><br><br><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span>');
+        
+        $('#p3').html('<span class="title"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Vienna<br>Austria</a></span>');
+        
+        $('#p4').html('Portrait Photos: Kristine Veit | <a href="https://www.kristineveit.at" target="_blank" >www.kristineveit.at</a>');
+        $('#p5').html('Hair and Makeup: Peter Vogelauer – Der Kultfriseur | <a href="https://www.peter-vogelauer.com" target="_blank"> www.peter-vogelauer.com </a>');
+        $('#p6').html('Communication Design: Neel Buddhadev | <a href="https://www.neelbuddhadev.com" target="_blank" >www.neelbuddhadev.com</a>');
+        
+        $('#p4m').html('Portrait Photos: <br>Kristine Veit <br> <a href="https://www.kristineveit.at" target="_blank" >www.kristineveit.at</a>');
+        $('#p5m').html('Hair and Makeup: <br>Peter Vogelauer – Der Kultfriseur <br> <a href="https://www.peter-vogelauer.com" target="_blank"> www.peter-vogelauer.com </a>');
+        $('#p6m').html('Communication Design: <br>Neel Buddhadev <br> <a href="https://www.neelbuddhadev.com" target="_blank" >www.neelbuddhadev.com</a>');
+        
+        $('#p7').html('<a href="https://www.room-to-move.at/" target="_blank" >www.room-to-move.at</a>');
+        
+        $('#p8').html('PRIVACY POLICY');
+        
+		
+		localStorage.setItem( 'objectToPass', "EN" );
+	});
+				   
+	$('#ES').click(function() {
+		$('#contact').html('<a href="contact">CONTACT</a>');
+		$('#info').html('KONTAKT');
+        
+        $('#p1').html('<span class="title"> Andrea Posch</span> <br>Psicoterapeuta en formación especializada bajo supervisión docente<br><span class="font_GN"></span>');
+        
+        $('#p2').html('<span class="title"><a href="https://wa.me/+436706548726" target="_blank" >M: +43 670 654 87 26</a><br><br><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span>');
+        
+        $('#p3').html('<span class="title"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Viena<br>Austria</a></span>');
+        
+        $('#p4').html('Fotos de retratos: Kristine Veit | <a href="https://www.kristineveit.at" target="_blank" >www.kristineveit.at</a>');
+        $('#p5').html('Peluquería y maquillaje: Peter Vogelauer – Der Kultfriseur | <a href="https://www.peter-vogelauer.com" target="_blank"> www.peter-vogelauer.com </a>');
+        $('#p6').html('Diseño de comunicación:  Neel Buddhadev | <a href="https://www.neelbuddhadev.com" target="_blank" >www.neelbuddhadev.com</a>');
+        
+        
+        $('#p4m').html('Fotos de retratos: <br>Kristine Veit <br> <a href="https://www.kristineveit.at" target="_blank" >www.kristineveit.at</a>');
+        $('#p5m').html('Peluquería y maquillaje: <br>Peter Vogelauer – Der Kultfriseur <br> <a href="https://www.peter-vogelauer.com" target="_blank"> www.peter-vogelauer.com </a>');
+        $('#p6m').html('Diseño de comunicación:  <br>Neel Buddhadev <br> <a href="https://www.neelbuddhadev.com" target="_blank" >www.neelbuddhadev.com</a>');
+        
+        
+        $('#p7').html('<a href="https://www.room-to-move.at/" target="_blank" >www.room-to-move.at</a>');
+        
+        $('#p8').html('POLÍTICA DE PRIVACIDAD');
+		
+		localStorage.setItem( 'objectToPass', "ES" );
+	});
+		   
+</script>
+</body>
+</html>

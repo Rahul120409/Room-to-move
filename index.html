@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Room-To-Move | Official Website"/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="https://andreaposch.at/logo192.png" />
+<meta property="og:url" content="https://www.room-to-move.at/"/>
+<title>Room-To-Move</title>
+<meta name="description" content="Sometimes, familiar paths no longer lead us forward. Psychotherapy offers a space to pause, better understand yourself, and discover new possibilities."/>
+<link rel="icon" href="assets/img/favicon.ico"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#7b2d68">
+<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/home.css" />
+<link rel="stylesheet" href="assets/css/fonts.css" />
+<link rel="stylesheet" href="assets/css/bgAnimation.css" />
+</head>
+
+<body class="index-bg" onload="init();">
+<div class="fade-in">
+  <div class="container fade-in">
+    <div class="header" style="background: none !important;" >
+      <div class="row">
+        <div class="col-sm-12 col-md-6 col-12 ">
+          <div class="logo "><img src="assets/img/logo_white.png" alt="Andrea Posch" /> </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-12 txt_right" style="position: relative">
+          <ul class="lang home">
+            <li><a href="information">
+              <div class="info_img_home"></div>
+              </a></li>
+            <li class="flag flagActive" id="DE">DE</li>
+            <li class="flag" id="EN">EN</li>
+            <li class="flag" id="ES">ES</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="content_home">
+      <!--<div class="row" >
+        <div class="col-12 "> <span id="m1" class="subtitel titel"></span> </div>
+      </div>-->
+      <div class="row" >
+        <div class="col-12 ">
+          <p id="p1"></p>
+          <div class="home-img"> <img src="assets/img/img_3.jpg" alt=""> </div>
+          <p id="p2" class="border-bottom pd_b_46"></p>
+        </div>
+      </div>
+      <div class="row fadein"  >
+        <div class="col-12 ">
+          <div class="home-img "> <img src="assets/img/img_2.jpg" alt=""> </div>
+          <p id="p3" class=" border-bottom pd_b_46"></p>
+        </div>
+      </div>
+        <div class="row fadein"  >
+        <div class="col-12">
+            <div class="home-img "> <img src="assets/img/img_1.jpg" alt=""> </div>
+          <p id="p4" class="border-bottom pd_b_46 "></p>
+        </div>
+      </div>
+      <div class="row fadein"  >
+        <div class="col-12">
+             <div class="home-img "> <img src="assets/img/img_4.jpg" alt=""> </div>
+          <p id="p5" class="border-bottom pd_b_46 "></p>
+        </div>
+      </div>
+      <div class="row pd_t_46 pd_b_46" id="cont" >
+        <div class="col-12 rtw_top ">
+          <div class="rtw"><img src="assets/img/roomToWork.png" alt=""></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="animation_container" class="animation_container">
+  <canvas id="canvas" class="canavasBG"></canvas>
+  <div id="dom_overlay_container" class="dom_overlay_container"> </div>
+</div>
+</body>
+<script type="text/javascript" src="assets/js/jquery-3.7.1.min.js"></script> 
+<script type="text/javascript" src="assets/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/createjs.min.js"></script> 
+<script type="text/ecmascript" src="assets/js/glowBg.js"></script>
+<script type="text/javascript">
+    
+    // fade in grid items  ==================================
+
+  $(document).on("scroll", function () {
+    var pageTop = $(document).scrollTop()
+    var pageBottom = pageTop + $(window).height()
+    var tags = $(".fadein")
+
+    for (var i = 0; i < tags.length; i++) {
+      var tag = tags[i]
+
+      if ($(tag).offset().top < pageBottom) {
+        $(tag).addClass("visible")
+      } else {
+        $(tag).removeClass("visible")
+      }
+    }
+  })
+    
+    /* BG Glow Animation */
+    var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("E153DBF7C2E3884FA5EB00534B2458E7");
+	var lib=comp.getLibrary();
+	handleComplete({},comp);
+}
+function handleComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	exportRoot = new lib.glowBg();
+	stage = new lib.Stage(canvas);	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.framerate = lib.properties.fps;
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	AdobeAn.makeResponsive(true,'both',false,1,[canvas,anim_container,dom_overlay_container]);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+    /* BG Glow Animation End */
+    
+	$(document).ready(function() {
+        if (localStorage['objectToPass'] == "DE") {
+            $('#DE').trigger('click');
+        } else if (localStorage['objectToPass'] == "EN") {
+            $('#EN').trigger('click');
+        } else if (localStorage['objectToPass'] == "ES") {
+            $('#ES').trigger('click');
+        } else {
+            $('#DE').trigger('click'); // Default DE
+        }
+    });
+
+
+	$('.lang').on('click', 'li', function() {
+		$('.lang li.flagActive').removeClass('flagActive');
+		$(this).toggleClass('flagActive');
+	});
+	
+	$('#DE').click(function() {
+		$('#m1').html('UNSER KONZEPT');
+
+        
+        $('#p1').html('<span class="title">Mag.<sup>a</sup> Andrea Posch</span><br><span class="GothamMedium">Psychotherapeutin in Fachausbildung unter Lehrsupervision</span><br>(Institut für Integrative Gestalttherapie Wien)');
+        
+        $('#p2').html('<span class="title">WARUM PSYCHOTHERAPIE?</span><br><br>Manchmal führen vertraute Wege nicht mehr weiter. Psychotherapie bietet Raum, innezuhalten, sich selbst besser zu verstehen und neue Möglichkeiten zu entdecken.<br><br> Nicht immer gibt es schon Worte für das, was uns beschäftigt. Manchmal ist da zunächst nur ein Gefühl: Etwas stimmt nicht mehr. Etwas fehlt. Oder das, was bisher getragen hat, trägt nicht mehr.<br><br> Vielleicht begegnen Ihnen immer wieder ähnliche Konflikte. Vielleicht erleben Sie vertraute Muster als einengend. Oder Sie spüren, dass sich etwas verändern soll, ohne schon zu wissen, was oder wie.<br><br> Psychotherapie lädt dazu ein, diesen Erfahrungen Raum zu geben: Zusammenhänge bewusster wahrzunehmen, eigene Muster zu erkennen und Neues zu erleben und zu erproben.<br><br>Dabei geht es darum, Ihre Wahl- und Handlungsmöglichkeiten zu erweitern. Im Mittelpunkt stehen Sie und die Frage, wie Sie Ihr Leben selbstbestimmter gestalten und einen liebevolleren Umgang mit sich selbst entwickeln können.');
+        
+        
+        $('#p3').html('<span class="title">MEIN ANGEBOT</span><br><br><ul class="line"> <li class="GothamMedium">Ich biete folgende Settings an</li><li>Einzeltherapie: 50 Minuten pro Einheit</li><li>Paartherapie: 90 Minuten pro Einheit</li><li>Gruppentherapie: 120 Minuten pro Einheit</li><li>Onlinetherapie: 50 bis 90 Minuten pro Einheit</li></ul><ul class="line"><li class="GothamMedium">GRÜNDE FÜR EINE PSYCHOTHERAPIE</li><li>Persönliche Lebenskrisen und Phasen der Neuorientierung</li><li>Berufliche Belastungen und Krisen</li><li>Partnerschaftskonflikte, Trennung und Scheidung</li><li>Wiederkehrende Ängste oder belastende Gefühle wie Wut und Trauer</li><li>Verlusterfahrungen und Schwierigkeiten mit dem eigenen Selbstwert</li><li>Der Wunsch nach persönlichem Wachstum und Veränderung</li></ul><br>Vielleicht lässt sich Ihr Anliegen noch nicht genau benennen. Auch das kann ein Ausgangspunkt für ein erstes Gespräch sein. Wenn Sie einen Termin vereinbaren möchten oder Fragen zu meinem Angebot haben, freue ich mich über Ihre Kontaktaufnahme!');
+        
+        $('#p4').html('<span class="title">ÜBER MICH</span><br><br>Ich bin Psychotherapeutin in Fachausbildung unter Lehrsupervision.<br><br>Seit vielen Jahren arbeite ich auch als Mediatorin und Rechtsanwältin im Familienrecht. Dabei bin ich Menschen mit unterschiedlichen Lebensgeschichten und kulturellen Hintergründen begegnet. Ich habe erfahren, wie vielfältig unsere Vorstellungen davon sind, wie wir leben, lieben, Beziehungen gestalten und unseren Platz in der Welt finden.<br><br> Diese Begegnungen haben meinen Blick erweitert. Sie haben mich darin bestärkt, jedem Menschen offen zu begegnen und meine eigenen Vorstellungen davon, wie ein Leben sein sollte, zurückzustellen.<br><br> Jeder Mensch bringt eine eigene Geschichte, Erfahrungen und Möglichkeiten mit. Mich interessiert, wie Sie Ihr Leben erleben, was Sie bewegt und was Sie verändern möchten.<br><br> In der Psychotherapie möchte ich Ihnen Raum geben, sich selbst neu zu begegnen. Ich begleite Sie auf Augenhöhe, mit Klarheit, Offenheit und Neugier – und mit Respekt für Ihre Geschichte und Ihren eigenen Weg.');
+        
+        $('#p5').html('<span class="title">KONTAKT FÜR TERMINVEREINBARUNG</span><br><br><a href="https://www.linkedin.com/in/andrea-posch-b1194988/" target="--blank"><span class="title">Mag.<sup>a</sup> Andrea Posch</span><br><span class="subtitle">Psychotherapeutin in Fachausbildung unter Lehrsupervision</span><br></a><br><span class="subtitle"><a href="https://wa.me/+436706548726" target="_blank">M: +43 670 654 87 26</a></span><br><span class="subtitle"><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span><br><span class="subtitle"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Wien<br>Austria</a></span><br><span class="subtitle">Bankverbindung</span><br>BIC/SWIFT: KSPKAT2KXXX<br>IBAN: AT23 2070 6022 0102 6297');
+        
+		localStorage.setItem( 'objectToPass', "DE" );
+	});
+				   
+	$('#EN').click(function() {
+        $('#m1').html('OUR CONCEPT');
+
+        
+        $('#p1').html('<span class="title"> Andrea Posch</span><br><span class="GothamMedium">Psychotherapist in specialized training under clinical supervision</span><br>(Institute for Integrative Gestalt Therapy Vienna)');
+        
+        $('#p2').html('<span class="title">WHY PSYCHOTHERAPY?</span><br><br>Sometimes, familiar paths no longer lead us forward. Psychotherapy offers a space to pause, better understand yourself, and discover new possibilities.<br><br>There aren’t always words for what’s on our minds. Sometimes there’s just a feeling at first: Something isn’t right anymore. Something is missing. Or what used to sustain us no longer does.<br><br>Perhaps you keep encountering similar conflicts. Perhaps you find familiar patterns to be restrictive. Or you sense that something needs to change, without yet knowing what or how.<br><br>Psychotherapy invites you to give these experiences space: to become more aware of connections, to recognize your own patterns, and to experience and try out new things.<br><br>The goal is to expand your options and your capacity for action. The focus is on you and the question of how you can shape your life in a more self-determined way and develop a more loving relationship with yourself.');
+        
+        $('#p3').html('<span class="title">MY SERVICES</span><br><br><ul class="line"> <li class="GothamMedium">I offer the following formats</li><li>Individual therapy: 50 minutes per session</li><li>Couples therapy: 90 minutes per session</li><li>Group therapy: 120 minutes per session</li><li>Online therapy: 50 to 90 minutes per session</li></ul><ul class="line"><li class="GothamMedium">Reasons to seek psychotherapy</li><li>Personal life crises and periods of reorientation</li><li>Work-related stress and crises</li><li>Relationship conflicts, separation, and divorce</li><li>Recurring fears or distressing emotions such as anger and grief</li><li>Experiences of loss and difficulties with self-esteem</li><li>The desire for personal growth and change</li></ul><br>Perhaps you can’t quite put your concerns into words yet. That, too, can be a starting point for an initial conversation. If you’d like to schedule an appointment or have questions about my services, I look forward to hearing from you!');
+        
+        $('#p4').html('<span class="title">ABOUT ME</span><br><br>I am a psychotherapist in specialized training under clinical supervision.<br><br>For many years, I have also worked as a mediator and attorney specializing in family law. In this work, I have encountered people with diverse life stories and cultural backgrounds. I have come to understand just how varied our ideas are about how we live, love, shape relationships, and find our place in the world.<br><br> These encounters have broadened my perspective. They have encouraged me to approach every person with an open mind and to set aside my own ideas about how life should be.<br><br> Every person brings their own story, experiences, and possibilities. I’m interested in how you experience your life, what moves you, and what you’d like to change.<br><br> In psychotherapy, I want to give you the space to rediscover yourself. I’ll work alongside you, with clarity, openness, and curiosity—and with respect for your story and your own path.');
+        
+        $('#p5').html('<span class="title">CONTACT FOR APPOINTMENT</span><br><br><a href="https://www.linkedin.com/in/andrea-posch-b1194988/" target="--blank"><span class="title"> Andrea Posch</span><br><span class="subtitle">Psychotherapist in specialized training under clinical supervision</span><br></a><br><span class="subtitle"><a href="https://wa.me/+436706548726" target="_blank">M: +43 670 654 87 26</a></span><br><span class="subtitle"><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span><br><span class="subtitle"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Vienna<br>Austria</a></span><br><span class="subtitle">Bank details</span><br>BIC/SWIFT: KSPKAT2KXXX<br>IBAN: AT23 2070 6022 0102 6297');
+        
+		localStorage.setItem( 'objectToPass', "EN" );
+        
+	});
+				   
+	$('#ES').click(function() {
+		$('#m1').html('NUESTRO CONCEPTO');
+
+        
+        $('#p1').html('<span class="title"> Andrea Posch</span><br><span class="GothamMedium">Psicoterapeuta en formación especializada bajo supervisión docente</span><br>(Instituto de Terapia Gestalt Integrativa de Viena)');
+        
+        $('#p2').html('<span class="title">¿POR QUÉ LA PSICOTERAPIA?</span><br><br>A veces, los caminos que conocemos ya no nos llevan a ninguna parte. La psicoterapia ofrece un espacio para hacer una pausa, comprendernos mejor a nosotros mismos y descubrir nuevas posibilidades.<br><br> No siempre hay palabras para expresar lo que nos preocupa. A veces, al principio solo hay un sentimiento: algo ya no está bien. Algo falta. O lo que hasta ahora nos ha dado apoyo ya no lo hace.<br><br> Quizás se enfrenta una y otra vez a conflictos similares. Quizás siente que los patrones conocidos le limitan. O tal vez siente que algo debe cambiar, sin saber aún qué ni cómo.<br><br> La psicoterapia le invita a dar espacio a estas experiencias: a percibir las conexiones de manera más consciente, a reconocer sus propios patrones y a experimentar y probar cosas nuevas.<br><br> El objetivo es ampliar sus posibilidades de elegir y actuar. Usted es el centro de atención, junto con la pregunta de cómo puede dar forma a su vida de manera más autónoma y desarrollar una relación más amorosa consigo mismo.');
+        
+        $('#p3').html('<span class="title">MI OFERTA</span><br><br><ul class="line"> <li class="GothamMedium">Ofrezco los siguientes formatos</li><li>Terapia individual: 50 minutos por sesión</li><li>Terapia de pareja: 90 minutos por sesión</li><li>Terapia grupal: 120 minutos por sesión</li><li>Terapia en línea: de 50 a 90 minutos por sesión</li></ul><ul class="line"><li class="GothamMedium">RAZONES PARA ACUDIR A PSICOTERAPIA</li><li>Crisis personales y etapas de reorientación</li><li>Estrés y crisis laborales</li><li>Conflictos de pareja, separación y divorcio</li><li>Miedos recurrentes o sentimientos agobiantes como la ira y la tristeza</li><li>Experiencias de pérdida y dificultades con la autoestima</li><li>El deseo de crecimiento personal y cambio</li></ul><br>Quizás aún no pueda definir con exactitud cuál es su inquietud. Eso también puede ser un punto de partida para una primera conversación. Si desea concertar una cita o tiene preguntas sobre mis servicios, ¡me encantaría que se pusiera en contacto conmigo!');
+        
+        $('#p4').html('<span class="title">ACERCA DE MÍ</span><br><br>Soy psicoterapeuta en formación especializada bajo supervisión docente.<br><br> Desde hace muchos años también trabajo como mediadora y abogada en derecho de familia. En este ámbito, he conocido a personas con diferentes historias de vida y antecedentes culturales. He descubierto cuán diversas son nuestras ideas sobre cómo vivimos, amamos, construimos relaciones y encontramos nuestro lugar en el mundo.<br><br> Estos encuentros han ampliado mi perspectiva. Han reforzado mi intención de acercarme a cada persona con una actitud abierta y de dejar de lado mis propias ideas sobre cómo debería ser la vida.<br><br> Cada persona trae consigo su propia historia, sus experiencias y sus posibilidades. Me interesa saber cómo vive su vida, qué le mueve y qué le gustaría cambiar.<br><br> En la psicoterapia, quiero brindarle un espacio para que se redescubra a sí mismo. Lo acompaño de igual a igual, con claridad, franqueza y curiosidad, y con respeto por su historia y su propio camin.');
+        
+        $('#p5').html('<span class="title">CONTACTO PARA CONCERTAR UNA CITA</span><br><br><a href="https://www.linkedin.com/in/andrea-posch-b1194988/" target="--blank"><span class="title"> Andrea Posch</span><br><span class="subtitle">Psicoterapeuta en formación especializada bajo supervisión docente</span><br></a><br><span class="subtitle"><a href="https://wa.me/+436706548726" target="_blank">M: +43 670 654 87 26</a></span><br><span class="subtitle"><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span><br><span class="subtitle"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Viena<br>Austria</a></span><br><span class="subtitle">Datos bancarios</span><br>BIC/SWIFT: KSPKAT2KXXX<br>IBAN: AT23 2070 6022 0102 6297');
+		
+		localStorage.setItem( 'objectToPass', "ES" );
+	});
+</script>
+</html>

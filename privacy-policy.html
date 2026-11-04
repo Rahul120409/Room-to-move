@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Room-To-Move | Official Website"/>
+<meta property="og:type" content="website"/>
+<meta property="og:image" content="https://andreaposch.at/logo192.png" />
+<meta property="og:url" content="https://www.room-to-move.at/"/>
+<title>Room-To-Move</title>
+<meta name="description" content="Sometimes, familiar paths no longer lead us forward. Psychotherapy offers a space to pause, better understand yourself, and discover new possibilities."/>
+    <link rel="icon" href="assets/img/favicon.ico"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="stylesheet" href="assets/css/fonts.css" />
+<link rel="stylesheet" href="assets/css/privacy.css" />
+</head>
+
+<body onload="init();">
+<div class="container">
+  <div class="sticky-top header header_border" >
+    <div class="row">
+      <div class="col-sm-12 col-md-6 col-12 ">
+        <div class="logo mView"><a href="index"> <img src="assets/img/logo_pink.png" alt="Andrea Posch" /> </a></div>
+        <div class="logo wView"> <a href="index">
+          <div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:350px; height:80px">
+            <canvas id="canvas" width="350" height="80" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+            <div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:350px; height:80px; position: absolute; left: 0px; top: 0px; display: block;"> </div>
+          </div>
+          </a> </div>
+      </div>
+      <div class="col-sm-12 col-md-6 col-12 ">
+        <ul class="lang">
+          <li><a href="information">
+            <div class="info_img"></div>
+            </a></li>
+          <li class="flag flagActive" id="DE">DE</li>
+          <li class="flag" id="EN">EN</li>
+          <li class="flag" id="ES">ES</li>
+          <!--<li class="contact pink" id="contact">KONTAKT</li>-->
+        </ul>
+      </div>
+    </div>
+   
+  </div>
+ <div class="content fade-in">
+    <div class="row" >
+      <div class="col-12">
+        <div class="text-content">
+            <p id="p5" class="pd_b_23"></p>
+            <p id="p6" class="pd_b_23"></p>
+            <p id="p7" class="pd_b_23"></p>
+            <!--<p id="p8" class="pd_b_23"></p>
+            <p id="p9" class="pd_b_23"></p>-->
+            <p id="p10" class="pd_b_23"></p>
+            <p id="p11" class="pd_b_23"></p>
+            <p id="p12" class="pd_b_23"></p>
+            <p id="p13" class="pd_b_23"></p>
+            <p id="p14" class="pd_b_23"></p>
+            
+          <p id="p1" class="pd_b_23"></p>
+            <p id="p2" class="pd_b_23"></p>
+            <p id="p3" class="pd_b_23"></p>
+            <p id="p4"></p>
+            
+            
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript" src="assets/js/jquery-3.7.1.min.js"></script> 
+<script type="text/javascript" src="assets/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="assets/js/createjs.min.js"></script> 
+<script type="text/javascript" src="assets/js/logoShineRTM.js"></script> 
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	var comp=AdobeAn.getComposition("5E836E6796F3C044A524FDE926EC8C3F");
+	var lib=comp.getLibrary();
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", function(evt){handleFileLoad(evt,comp)});
+	loader.addEventListener("complete", function(evt){handleComplete(evt,comp)});
+	var lib=comp.getLibrary();
+	loader.loadManifest(lib.properties.manifest);
+}
+function handleFileLoad(evt, comp) {
+	var images=comp.getImages();	
+	if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }	
+}
+function handleComplete(evt,comp) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var lib=comp.getLibrary();
+	var ss=comp.getSpriteSheet();
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	exportRoot = new lib.logoShineRTM();
+	stage = new lib.Stage(canvas);	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		stage.addChild(exportRoot);
+		createjs.Ticker.framerate = lib.properties.fps;
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	AdobeAn.makeResponsive(true,'both',false,1,[canvas,anim_container,dom_overlay_container]);	
+	AdobeAn.compositionLoaded(lib.properties.id);
+	fnStartAnimation();
+}
+</script> 
+	
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+        if (localStorage['objectToPass'] == "DE") {
+            $('#DE').trigger('click');
+        } else if (localStorage['objectToPass'] == "EN") {
+            $('#EN').trigger('click');
+        } else if (localStorage['objectToPass'] == "ES") {
+            $('#ES').trigger('click');
+        } else {
+            $('#DE').trigger('click'); // Default DE
+        }
+    });
+
+
+	$('.lang').on('click', 'li', function() {
+		$('.lang li.flagActive').removeClass('flagActive');
+		$(this).toggleClass('flagActive');
+	});
+	
+	$('#DE').click(function() {
+        
+        $('#p1').html('<span class="title">Mag.<sup>a</sup> Andrea Posch</span> <br>Psychotherapeutin in Fachausbildung unter Lehrsupervision <br><span class="font_GN"></span>');
+        
+        $('#p2').html('<span class="title"><a href="https://wa.me/+436706548726" target="_blank" >M: +43 670 654 87 26</a><br><br><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span>');
+        
+        $('#p3').html('<span class="title"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Wien<br>Austria</a></span>');
+        
+        $('#p4').html('<a href="https://www.room-to-move.at" target="_self" >www.room-to-move.at</a>');
+        
+        $('#p5').html('<span class="title pd_b_23 dis_block">DATENSCHUTZERKLÄRUNG</span>Diese Website wird von Mag.<sup>a</sup> Andrea Posch, Psychotherapeutin in Fachausbildung unter Lehrsupervision, in 1030 Wien, Rochusgasse 2/Top 24, betrieben. Im Folgenden möchten wir Sie darüber informieren zu welchen Verarbeitungszwecken welche personenbezogenen Daten von Ihnen verarbeitet werden. Personenbezogene Daten sind alle Informationen, die sich auf eine identifizierte oder identifizierbare natürliche Person beziehen, das heißt alle Informationen mit deren Hilfe eine Person identifiziert werden kann. Bei der Verarbeitung Ihrer Daten werden sämtliche datenschutzrechtlichen Vorgaben eingehalten, denn die Sicherheit und der Schutz Ihrer personenbezogenen Daten ist uns ein besonderes Anliegen.');
+		
+		$('#p6').html('<span class="title pd_b_23 dis_block">Datenverarbeitung bei Aufruf dieser Website</span> Durch das Aufrufen unserer Website werden Informationen in sogenannten Server-Log Files erhoben und gespeichert. Zudem verwendet diese Website Cookies, Google Analytics und Google Maps.');
+		
+        $('#p7').html('<span class="title pd_b_23 dis_block">Server-Log Files</span> Mit dem Aufruf unserer Website werden Ihre IP-Adressen erfasst und gespeichert. Zudem erhebt und speichert der Provider unserer Homepage automatisch Informationen in sogenannten Server-Log Files. Welche Ihr Browser automatisch an uns übermittelt. Dabei handelt es sich nebst Ihrer IP-Adresse um Inhalte der Cookies von www.apeslaw.com, Datum und Uhrzeit der Serveranfrage, Browsertyp, Browserversion, verwendetes Betriebssystem, Referrer-URL sowie der Hostnamen des zugreifenden Rechners. Diese Daten haben grundsätzlich keinen Personenbezug und werden nicht mit anderen Datenquellen zusammengeführt. Im Falle konkreter Anhaltspunkte für eine rechtswidrige Nutzung behalten wir uns vor, diese Daten nachträglich zu prüfen. Es kommt zu keiner Übermittlung dieser Daten an Dritte. Zwecke des Verarbeitungsvorganges sind die Protokollierung der Systembenutzung, Nutzungsstatistiken zu erstellen, eine Analyse unserer Website vorzunehmen und Angriffe auf diese erkennen, untersuchen und verhindern zu können. Zudem werden diese Informationen zur Gestaltung unserer Website ausgewertet. Rechtsgrundlage für diese Verarbeitungsvorgänge ist ein berechtigtes Interesse im Sinne von Art. 6 Abs. 1 lit. f. DSGVO.');
+        
+        /*$('#p8').html('<span class="title pd_b_23 dis_block">Cookies</span>Diese Website verwendet sogenannte Cookies. Dabei handelt es sich um kleine Textdateien, die auf Ihrem Rechner abgelegt werden und die Ihr Browser speichert. Sie dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen. Durch die Verwendung von Cookies können beispielsweise Ihre Präferenzen und Einstellungen gespeichert werden oder es wird Ihnen ermöglicht die Webseite dort zu öffnen, wo Sie sie zuletzt verlassen haben. Cookies können auf keine anderen Daten auf Ihrem Endgerät zugreifen, erfassen oder verarbeiten.');
+        
+        $('#p9').html('<span class=" pd_b_23 dis_block">Zu diesen Zwecken werden zwei Arten von Cookies verwendet:</span><span class=" pd_b_23 dis_block"><span class="title ">- Session Cookies: </span> Dabei handelt es sich um temporäre Cookies, die bis zum Verlassen unserer Website in der Cookie-Datei Ihres Browsers zwischengespeichert und nach Ende Ihres Besuchs bzw. schließen des Browsers automatisch gelöscht werden. Diese Cookies sind betriebsnotwendige Cookies, die für ein ordnungsgemäßes Funktionieren der Homepage notwendig sind. Diese können nur vom Betreiber der Homepage gesetzt und ausgelesen werden und werden nicht an Dritte weitergeleitet. Bis auf Angaben Ihrer IP-Adresse, dem verwendeten Browser sowie Datum und Zeit des Besuchs sind keine personenbezogenen Daten enthalten. Dauerhafte Cookies: Diese hingegen bleiben auf Ihrem Endgerät gespeichert, bis Sie sie manuell in Ihrem Browser löschen. Mit diesen funktionalen Cookies wird Ihre Zustimmung zu der Verwendung und Platzierung von Cookies erfasst und gespeichert. Diese Cookies werden verwendet um Sie wiederzuerkennen, wenn Sie unsere Website ein weiteres Mal besuchen.</span><span class="pd_b_23 dis_block"><span class="title ">- Dauerhafte Cookies: </span> Diese hingegen bleiben auf Ihrem Endgerät gespeichert, bis Sie sie manuell in Ihrem Browser löschen. Mit diesen funktionalen Cookies wird Ihre Zustimmung zu der Verwendung und Platzierung von Cookies erfasst und gespeichert. Diese Cookies werden verwendet um Sie wiederzuerkennen, wenn Sie unsere Website ein weiteres Mal besuchen.</span><span class=" pd_b_23 dis_block"><span class="title">- Webanalyse Cookies: </span>Darüber hinaus verwenden wir einen Webanalysedienst (Google Analytics) der Google Inc., 1600 Amphitheater Parkway Mountain View, CA 94043, USA. Näheres hierzu folgt unten.</span>Es besteht die Möglichkeit in Ihren Browsereinstellungen den Browser derart einzustellen, dass Cookies vor ihrer Speicherung angezeigt werden, nur bestimmte Cookies akzeptiert oder abgelehnt werden oder die Verwendung von Cookies generell zu unterbinden. Sie können Cookies auch blockieren oder löschen wenn sie bereits auf Ihrem Endgerät gespeichert wurden. Wir möchten Sie darauf hinweisen, dass Änderungen der Einstellungen immer nur für einen Browser durchgeführt werden. Verwenden Sie einen anderen Browser oder wechseln Sie das Endgerät, müssen die Einstellungen für den jeweiligen Browser und für jedes Endgerät einzeln vorgenommen werden. Außerdem möchten wir Sie darauf aufmerksam machen, dass ein Ablehnen der Verwendung von Cookies gegebenenfalls dazu führen kann, dass unsere Website nicht in ihrem vollen Umfang genutzt werden kann und dadurch dessen Benutzerfreundlichkeit eingeschränkt sein könnte.');*/
+        
+        $('#p10').html('<span class="title pd_b_23 dis_block">Google Analytics</span> <span class="pd_b_23 dis_block">Diese Website verwendet Google Analytics. Dies ist ein Webanalysetool der Google Inc., welches sogenannte Cookies verwendet. Zweck dieses Verarbeitungsvorganges ist Statistiken über die Zugriffe auf unserer Website zu erstellen. Dies stellt ein berechtigtes Interesse im Sinne von Art. 6 Abs. 1 lit. f. DSGVO dar.</span> <span class=" pd_b_23 dis_block">Die durch Cookies erzeugten Informationen über Ihre Benutzung dieser Website (einschließlich Ihrer IP-Adresse) werden an einen Server von Google in den USA übertragen und dort gespeichert. Diese Website verwendet die von Google Analytics gebotene Möglichkeit der IP-Anonymisierung. Ihre IP-Adresse wird daher von Google gekürzt/anonymisiert, sobald Google Ihre IP-Adresse erhält. In unserem Auftrag wird Google diese Informationen verwenden, um Ihre Nutzung der Website auszuwerten, um Reports über die Websiteaktivitäten zusammenzustellen und um weitere mit der Websitenutzung und der Internetnutzung verbundene Dienstleistungen an uns zu erbringen. Die im Rahmen von Google Analytics von Ihrem Browser übermittelte und gekürzte IP-Adresse wird von Google nicht mit anderen Daten zusammengeführt.</span> <span class=" pd_b_23 dis_block">Sie können die Installation der Cookies durch eine entsprechende Einstellung Ihrer Browser Software verhindern. Sie können darüber hinaus die Erfassung der durch Cookies erzeugten und auf Ihre Nutzung der Webseite bezogenen Daten (inkl. Ihrer IP-Adresse) an Google sowie die Verarbeitung dieser Daten durch Google verhindern, indem sie das unter dem folgenden Link http://tools.google.com/dlpage/gaoptout?hl=de verfügbare Browser-Plugin herunterladen und installieren.</span> <span class=" pd_b_23 dis_block word-wrap">Allgemeine Informationen zu Google Analytics und Datenschutz finden Sie unter http://www.google.com/intl/de/analytics/privacyoverview.html.</span><span class=" pd_b_23 dis_block">Diese Website nutzt über eine API den Kartendienst Google Maps. Zur Nutzung der Funktionen von Google Maps ist es notwendig, Ihre IP Adresse zu speichern. Diese Informationen werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Wir selbst haben keinen Einfluss auf diese Datenübertragung. Die Nutzung von Google Maps erfolgt im Interesse einer leichten Auffindbarkeit unserer Geschäftsräumlichkeiten. Dies stellt ein berechtigtes Interesse im Sinne von Art. 6 Abs. 1 lit. f. DSGVO dar.</span> Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der Datenschutzerklärung von Google unter: https://www.google.de/intl/de/policies/privacy/.');
+        
+        $('#p11').html('<span class="title pd_b_23 dis_block">Datenverarbeitung bei Anfragen</span> Werden wir von Ihnen mittels Telefon oder E-Mail kontaktiert, verarbeiten wir ausschließlich die von Ihnen bereitgestellten personenbezogenen Daten. Diese Daten werden zum Zweck der Bearbeitung Ihrer Anfrage und deren Erledigung verarbeitet.');
+        
+        $('#p12').html('<span class="title pd_b_23 dis_block">Datenverarbeitung bei Beauftragung</span> Im Falle eines Auftragsverhältnisses zwischen Ihnen und einer unserer RechtsanwältInnen, verarbeiten wir personenbezogene Daten, die Sie uns freiwillig zur Verfügung gestellt haben sowie jene die für die Durchführung und Abwicklung unserer rechtsanwaltlichen Leistungen, für die Mediation oder die Beratung erforderlich sind. Zweck dieser Verarbeitungsvorgänge ist die rechtsanwaltliche Vertretung im Umfang des jeweiligen Mandats, die Leistung rechtsanwaltlicher Dienste im Umfang des Auftrages sowie die rechtliche Beratung.');
+        
+        $('#p13').html('<span class="title pd_b_23 dis_block">Zweckbestimmung und Datenminimierung</span> Nicht nur zur Sicherung eines hohen Datenschutzniveaus, sondern auch für eine schlanke und effiziente Kanzleiverwaltung werden ausschließlich Daten erfasst, welche für die Bearbeitung der jeweiligen Causa, und damit zur Erfüllung des Zweckes des jeweiligen Verarbeitungsvorgangs, erforderlich oder zumindest zweckdienlich sind.');
+        
+        $('#p14').html('<span class="title pd_b_23 dis_block">Ihre Rechte</span><span class=" pd_b_23 dis_block">Als Betroffene(r) einer Datenverarbeitung haben Sie ein Recht Auskunft, Berichtigung, Löschung, Einschränkung und Datenportabilität betreffend der von uns zu Ihrer Person verarbeiteten Daten. Sie haben darüber hinaus ein Recht auf Widerspruch gegen eine Datenverarbeitung Ihrer personenbezogenen Daten sowie ein Recht eine erteilte Zustimmung zur Nutzung Ihrer Daten zu widerrufen. Sind Sie der Ansicht, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt oder Ihre diesbezüglichen Rechte verletzt worden sind, haben Sie das Recht sich bei der Datenschutzbehörde zu beschweren.</span>Haben Sie Fragen betreffend der Verarbeitung Ihrer personenbezogenen Daten, können Sie sich an folgende Adresse wenden:');
+		
+		localStorage.setItem( 'objectToPass', "DE" );
+	});
+				   
+	$('#EN').click(function() {
+		$('#contact').html('<a href="contact">CONTACT</a>');
+		$('#info').html('KONTAKT');
+		
+		$('#p1').html('<span class="title"> Andrea Posch</span> <br>Psychotherapist in specialized training under clinical supervision<br><span class="font_GN"></span>');
+        
+        $('#p2').html('<span class="title"><a href="https://wa.me/+436706548726" target="_blank" >M: +43 670 654 87 26</a><br><br><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span>');
+        
+        $('#p3').html('<span class="title"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Vienna<br>Austria</a></span>');
+        
+        $('#p4').html('<a href="https://www.room-to-move.at/" target="_self" >www.room-to-move.at</a>');
+        
+        $('#p5').html('<span class="title pd_b_23 dis_block">PRIVACY POLICY</span>This website is operated by  Andrea Posch, Psychotherapist in specialized training under clinical supervision, Rochusgasse 2/Top 24, 1030 Vienna. In the following, we would like to inform you about the purposes for which your personal data is processed. Personal data is all information that relates to an identified or identifiable natural person, i.e. all information that can be used to identify a person. When processing your data, we comply with all data protection regulations, as the security and protection of your personal data is of particular concern to us.');
+        
+        $('#p6').html('<span class="title pd_b_23 dis_block">Data processing when accessing this website</span> When you visit our website, information is collected and stored in server log files. This website also uses cookies, Google Analytics, and Google Maps.');
+		
+        $('#p7').html('<span class="title pd_b_23 dis_block">Server log files</span> When you visit our website, your IP address is recorded and stored. The provider of our website automatically collects and stores information in server log files, including the content of cookies from www.apeslaw.com, the date and time of the server request, browser type, browser version, operating system used, referrer URL, and the host name of the accessing computer. This data, including your IP address, is anonymized or shortened and has no personal reference. It is not merged with other data sources. In case of concrete indications of illegal use, we reserve the right to retrospectively check this data. This data is not transferred to third parties. The purposes of the processing procedure are to log system usage, compile usage statistics, analyze our website, and detect, investigate, and prevent attacks. Additionally, this information is evaluated for the design of our website. The legal basis for these processing operations is a legitimate interest within the meaning of Art. 6 para. 1 lit. f. GDPR.');
+        
+        /*$('#p8').html('<span class="title pd_b_23 dis_block">Cookies</span>This website uses so-called cookies. These are small text files that are stored on your computer and saved by your browser. They are used to make our website more user-friendly, effective, and secure. By using cookies, for example, your preferences and settings can be saved, or you can open the website from where you last left it. Cookies cannot access, collect, or process any other data on your end device.');
+        
+        $('#p9').html('<span class=" pd_b_23 dis_block">Two types of cookies are used for these purposes:</span><span class=" pd_b_23 dis_block"><span class="title ">- Session cookies:</span> These are temporary cookies that are stored in your browser&apos;s cookie file until you leave our website and are automatically deleted at the end of your visit or when you close your browser. These cookies are essential cookies that are necessary for the website to function properly. They can only be set and read by the operator of the website and are not passed on to third parties. Apart from your IP address, the browser used, and the date and time of your visit, no personal data is contained.</span><span class="pd_b_23 dis_block"><span class="title ">- Persistent cookies:</span> These remain stored on your end device until you delete them manually in your browser. With these functional cookies, your consent to the use and placement of cookies is recorded and stored. These cookies are used to recognize you when you visit our website again.</span><span class=" pd_b_23 dis_block"><span class="title">- Web analysis cookies:</span>We also use a web analysis service (Google Analytics) from Google Inc, 1600 Amphitheater Parkway Mountain View, CA 94043, USA. More details are given below.</span>It is possible to set your browser settings so that cookies are displayed before they are stored, only certain cookies are accepted or rejected, or the use of cookies is generally prevented. You can also block or delete cookies if they have already been stored on your end device. We would like to point out that changes to the settings are only ever made for one browser. If you use a different browser or change the end device, the settings for the respective browser and for each end device must be made individually. We would also like to draw your attention to the fact that rejecting the use of cookies may mean that our website cannot be used to its full extent and that its user-friendliness may be restricted as a result.');*/
+        
+        $('#p10').html('<span class="title pd_b_23 dis_block">Google Analytics</span> <span class="pd_b_23 dis_block">This website uses Google Analytics. This is a web analysis tool of Google Inc. which uses so-called cookies. The purpose of this processing operation is to compile statistics on access to our website. This constitutes a legitimate interest within the meaning of Art. 6 para. 1 lit. f. GDPR.</span> <span class=" pd_b_23 dis_block">The information generated by cookies about your use of this website (including your IP address) is transmitted to a Google server in the USA and stored there. This website uses the IP anonymization option offered by Google Analytics. Your IP address will therefore be shortened/anonymized by Google as soon as Google receives your IP address. Google will use this information on our behalf for the purpose of evaluating your use of the website, compiling reports on website activity, and providing us with other services relating to website activity and internet usage. The abbreviated IP address transmitted by your browser as part of Google Analytics will not be merged with other data by Google.</span> <span class=" pd_b_23 dis_block">You can prevent the installation of cookies by selecting the appropriate settings in your browser software. You can also prevent Google from collecting the data generated by cookies and relating to your use of the website (including your IP address) to Google and the processing of this data by Google by downloading and installing the browser plug-in available at the following link <br>[http://tools.google.com/dlpage/gaoptout?hl=de](http://tools.google.com/dlpage/gaoptout?hl=de).</span> <span class=" pd_b_23 dis_block word-wrap">General information on Google Analytics and data protection can be found at<br> [http://www.google.com/intl/de/analytics/privacyoverview.html](http://www.google.com/intl/de/analytics/privacyoverview.html).</span><span class=" pd_b_23 dis_block">This website uses the map service Google Maps via an API. To use the functions of Google Maps, it is necessary to save your IP address. This information is usually transferred to a Google server in the USA and stored there. We ourselves have no influence on this data transfer. The use of Google Maps is in the interest of making our business premises easy to find. This constitutes a legitimate interest within the meaning of Art. 6 para. 1 lit. f. GDPR.</span> You can find more information on the handling of user data in Google&apos;s privacy policy at:<br> [https://www.google.de/intl/de/policies/privacy/](https://www.google.de/intl/de/policies/privacy/)');
+        
+        $('#p11').html('<span class="title pd_b_23 dis_block">Data processing for inquiries</span> If you contact us by telephone or email, we will only process the personal data you provide. This data is processed for the purpose of processing your inquiry and dealing with it.');
+        
+        $('#p12').html('<span class="title pd_b_23 dis_block">Data processing in the case of commissioning</span> In the event of a contractual relationship between you and one of our lawyers, we process personal data that you have voluntarily provided to us as well as that which is necessary for the performance and processing of our legal services, mediation service, consultancy. The purpose of these processing operations is the legal representation within the scope of the respective mandate, the provision of legal services within the scope of the mandate, and the provision of legal advice.');
+        
+        $('#p13').html('<span class="title pd_b_23 dis_block">Purpose and data minimization</span> Not only to ensure a high level of data protection but also for a lean and efficient law firm administration, only data that is necessary or at least useful for the processing of the respective case, and thus for the fulfillment of the purpose of the respective processing operation, is collected.');
+        
+        $('#p14').html('<span class="title pd_b_23 dis_block">Your rights</span><span class=" pd_b_23 dis_block">As a data subject, you have the right to information, correction, deletion, restriction, and data portability regarding the data we process about you. You also have the right to object to the processing of your personal data and the right to withdraw your consent to the use of your data. If you believe that the processing of your data violates data protection law or that your rights in this regard have been violated, you have the right to lodge a complaint with the data protection authority.</span>If you have any questions regarding the processing of your personal data, you can contact the following address:');
+		
+		localStorage.setItem( 'objectToPass', "EN" );
+	});
+				   
+	$('#ES').click(function() {
+
+        $('#p1').html('<span class="title"> Andrea Posch</span> <br>Psicoterapeuta en formación especializada bajo supervisión docente<br><span class="font_GN"></span>');
+        
+        $('#p2').html('<span class="title"><a href="https://wa.me/+436706548726" target="_blank" >M: +43 670 654 87 26</a><br><br><a href = "mailto: office@room-to-move.at">E: office@room-to-move.at</a></span>');
+        
+        $('#p3').html('<span class="title"><a href="https://maps.google.com/?q=48.201813,16.391127" target="_blank">Rochusgasse 2/Top 24<br>1030 Viena<br>Austria</a></span>');
+        
+        $('#p4').html('<a href="https://www.room-to-move.at" target="_self" >www.room-to-move.at</a>');
+        
+		$('#p5').html('<span class="title pd_b_23 dis_block">POLÍTICA DE PRIVACIDAD</span>Este sitio web es gestionado por  Andrea Posch, Psicoterapeuta en formación especializada bajo supervisión docente, Rochusgasse 2/Top 24, 1030 Viena. A continuación, nos gustaría informarle sobre los fines para los que se procesan sus datos personales. Los datos personales son toda la información relativa a una persona física identificada o identificable, es decir, toda la información que puede utilizarse para identificar a una persona. Al procesar sus datos, cumplimos toda la normativa sobre protección de datos, ya que la seguridad y protección de sus datos personales nos preocupa especialmente.');
+        
+        $('#p6').html('<span class="title pd_b_23 dis_block">Tratamiento de datos al acceder a este sitio web</span> Cuando visita nuestro sitio web, se recopila información que se almacena en archivos de registro del servidor. Este sitio web también utiliza cookies, Google Analytics y Google Maps.');
+		
+        $('#p7').html('<span class="title pd_b_23 dis_block">Archivos de registro del servidor</span> Cuando visita nuestro sitio web, se registra y almacena su dirección IP. Además, el proveedor de nuestro sitio web recopila y almacena automáticamente información en los denominados archivos de registro del servidor, que su navegador nos transmite automáticamente. Además de su dirección IP, esto incluye el contenido de las cookies de www.apeslaw.com, la fecha y hora de la solicitud al servidor, el tipo de navegador, la versión del navegador, el sistema operativo utilizado, la URL de referencia y el nombre de host del ordenador que accede. Estos datos no tienen referencia personal y no se fusionan con otras fuentes de datos. En caso de indicios concretos de uso ilegal, nos reservamos el derecho a comprobar estos datos a posteriori. Estos datos no se transfieren a terceros. Los fines del procedimiento de tratamiento son registrar el uso del sistema, elaborar estadísticas de uso, analizar nuestro sitio web y poder detectar, investigar y prevenir ataques contra el mismo. La base jurídica de estas operaciones de tratamiento es un interés legítimo en el sentido del artículo 6, apartado 1, del Tratado CE. 6 para. 1 lit. f. GDPR.');
+        
+        /*$('#p8').html('<span class="title pd_b_23 dis_block">Cookies</span>Este sitio web utiliza las denominadas cookies. Se trata de pequeños archivos de texto que se almacenan en su ordenador y que guarda su navegador. Se utilizan para que nuestro sitio web sea más fácil de usar, eficaz y seguro. Mediante el uso de cookies, por ejemplo, se pueden guardar sus preferencias y configuraciones o puede abrir el sitio web desde donde lo dejó por última vez. Las cookies no pueden acceder, recopilar ni procesar información personal.');
+        
+        $('#p9').html('<span class=" pd_b_23 dis_block">Para estos fines se utilizan dos tipos de cookies:</span><span class=" pd_b_23 dis_block"><span class="title ">- Cookies de sesión:</span> Son cookies temporales que se almacenan en el archivo de cookies de su navegador hasta que abandona nuestro sitio web y se eliminan automáticamente al final de su visita o cuando cierra el navegador. Estas cookies son esenciales y necesarias para que el sitio web funcione correctamente. Sólo pueden ser instaladas y leídas por el operador del sitio web y no se transmiten a terceros. Aparte de su dirección IP, el navegador utilizado y la fecha y hora de su visita, no contienen ningún dato personal.</span><span class="pd_b_23 dis_block"><span class="title ">- Cookies persistentes: </span> Permanecen almacenadas en su dispositivo final hasta que usted las borra manualmente en su navegador. Con estas cookies funcionales, se registra y almacena su consentimiento para el uso y colocación de cookies. Estas cookies se utilizan para reconocerle cuando vuelva a visitar nuestro sitio web.</span><span class=" pd_b_23 dis_block"><span class="title">- Cookies de análisis web: </span>También utilizamos un servicio de análisis web (Google Analytics) de Google Inc, 1600 Amphitheater Parkway Mountain View, CA 94043, Estados Unidos. A continuación encontrará más información.</span>Es posible configurar su navegador para que las cookies se muestren antes de ser almacenadas, sólo se acepten o rechacen determinadas cookies o se impida de forma general el uso de cookies. También puede bloquear o eliminar las cookies si ya se han almacenado en su dispositivo final. Nos gustaría señalar que los cambios en la configuración sólo se realizan para un navegador. Si utiliza un navegador diferente o cambia el dispositivo final, los ajustes para el navegador respectivo y para cada dispositivo final deben realizarse individualmente. También nos gustaría llamar su atención sobre el hecho de que rechazar el uso de cookies puede significar que nuestro sitio web no se puede utilizar en toda su extensión y que su facilidad de uso puede verse restringida como resultado.');*/
+        
+        $('#p10').html('<span class="title pd_b_23 dis_block">Google Analytics</span> <span class="pd_b_23 dis_block">Este sitio web utiliza Google Analytics. Se trata de una herramienta de análisis web de Google Inc. que utiliza las denominadas cookies. La finalidad de esta operación de tratamiento es elaborar estadísticas sobre el acceso a nuestro sitio web. Esto constituye un interés legítimo en el sentido del Art. 6 para. 1 lit. f. GDPR.</span> <span class=" pd_b_23 dis_block">La información que generan las cookies acerca de su uso de este sitio web (incluyendo su dirección IP) se transmite a un servidor de Google en EE.UU. y se almacena allí. Este sitio web utiliza la opción de anonimización de IP que ofrece Google Analytics. Por lo tanto, su dirección IP será acortada/anonimizada por Google tan pronto como Google reciba su dirección IP. Google usará esta información por cuenta nuestra con el propósito de seguir la pista de su uso del website, recopilando informes de la actividad del website y prestando otros servicios relacionados con la actividad del website y el uso de Internet. La dirección IP abreviada transmitida por su navegador como parte de Google Analytics no se fusionará con otros datos de Google.</span> <span class=" pd_b_23 dis_block">Puede evitar la instalación de cookies seleccionando la configuración adecuada en el software de su navegador. También puede evitar que Google recopile los datos generados por las cookies y relacionados con su uso del sitio web (incluida su dirección IP) para Google y el procesamiento de estos datos por parte de Google descargando e instalando el complemento del navegador disponible en el siguiente enlace http://tools.google.com/dlpage/gaoptout?hl=de.</span> <span class=" pd_b_23 dis_block word-wrap">Encontrará información general sobre Google Analytics y la protección de datos en http://www.google.com/intl/de/analytics/privacyoverview.html.</span><span class=" pd_b_23 dis_block">Este sitio web utiliza el servicio de mapas de Google Maps a través de una API. Para utilizar las funciones de Google Maps, es necesario guardar su dirección IP. Por lo general, esta información se transfiere a un servidor de Google en EE.UU. y se almacena allí. Nosotros no tenemos ninguna influencia sobre esta transferencia de datos. El uso de Google Maps obedece al interés de facilitar la localización de nuestros locales comerciales. Esto constituye un interés legítimo en el sentido del Art. 6 para. 1 lit. f. GDPR.</span> Encontrará más información sobre el tratamiento de los datos de los usuarios en la política de privacidad de Google en: https://www.google.de/intl/de/policies/privacy/.');
+        
+        $('#p11').html('<span class="title pd_b_23 dis_block">Tratamiento de datos para consultas</span> Si se pone en contacto con nosotros por teléfono o correo electrónico, sólo procesaremos los datos personales que nos proporcione. Estos datos se tratan con el fin de procesar su consulta y tramitarla.');
+        
+        $('#p12').html('<span class="title pd_b_23 dis_block">Tratamiento de datos en caso de encargo</span>En el caso de una relación contractual entre usted y uno de nuestros abogados, tratamos los datos personales que usted nos ha facilitado voluntariamente, así como aquellos que son necesarios para la ejecución y tramitación de nuestros servicios jurídicos, servicio de mediación, asesoramiento. La finalidad de estas operaciones de tratamiento es la representación legal en el ámbito del respectivo mandato, la prestación de servicios jurídicos en el ámbito del mandato y la prestación de asesoramiento jurídico.');
+        
+        $('#p13').html('<span class="title pd_b_23 dis_block">Finalidad y minimización de datos</span> No sólo para garantizar un alto nivel de protección de datos, sino también para una administración ágil y eficiente del bufete de abogados, de mediatora y de consultas, sólo se recogen los datos que son necesarios o al menos útiles para la tramitación del caso respectivo y, por tanto, para el cumplimiento de la finalidad de la respectiva operación de tratamiento.');
+        
+        $('#p14').html('<span class="title pd_b_23 dis_block">Sus derechos</span><span class=" pd_b_23 dis_block">Como interesado, tiene derecho a la información, rectificación, supresión, limitación y portabilidad de los datos que tratamos sobre usted. También tiene derecho a oponerse al tratamiento de sus datos personales y a retirar su consentimiento al uso de los mismos. Si cree que el tratamiento de sus datos infringe la ley de protección de datos o que se han vulnerado sus derechos al respecto, tiene derecho a presentar una reclamación ante la autoridad de protección de datos.</span>Si tiene alguna pregunta sobre el tratamiento de sus datos personales, puede dirigirse a la siguiente dirección:');
+		
+		
+		
+		localStorage.setItem( 'objectToPass', "ES" );
+	});
+		   
+</script>
+</body>
+</html>
